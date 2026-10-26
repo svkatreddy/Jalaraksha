@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report Water Wastage — JalaRaksha</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-link">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 3C16 3 6 15 6 21C6 26.5228 10.4772 31 16 31C21.5228 31 26 26.5228 26 21C26 15 16 3 16 3Z" fill="#0E7490"/>
+          <path d="M16 12C16 12 11 18 11 21C11 23.7614 13.2386 26 16 26C18.7614 26 21 23.7614 21 21C21 18 16 12 16 12Z" fill="#67E8F9" opacity="0.6"/>
+          <path d="M16 25C13.5 25 12 21 12 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>JalaRaksha</span>
+      </a>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="report.html" class="nav-link active">Report Wastage</a></li>
+          <li><a href="track.html" class="nav-link">Track Status</a></li>
+          <li><a href="awareness.html" class="nav-link">Conservation Tips</a></li>
+          <li><a href="survey.html" class="nav-link">Community Survey</a></li>
+          <li><a href="admin.html" class="nav-link nav-admin-link">Admin Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Submission Form Container -->
+      <div class="form-container" id="report-form-container">
+        <div style="margin-bottom: 2rem;">
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+            Report Water Wastage Incident
+          </h1>
+          <p style="color: var(--text-secondary); line-height: 1.5;">
+            Document visible water leaks, overflowing storage tanks, or broken public taps. Enter broad location descriptions; no personal accounts or private details are collected.
+          </p>
+        </div>
+
+        <div class="card">
+          <form id="static-report-form">
+            <!-- Category -->
+            <div class="form-group">
+              <label for="category" class="form-label">Wastage Category *</label>
+              <select id="category" class="form-control" required>
+                <option value="">-- Select Category --</option>
+                <option value="Leaking tap/pipe">Leaking tap/pipe</option>
+                <option value="Overflowing tank">Overflowing tank</option>
+                <option value="Damaged public water outlet">Damaged public water outlet</option>
+                <option value="Unnecessary water use">Unnecessary water use</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+
+            <!-- Location -->
+            <div class="form-group">
+              <label for="location_text" class="form-label">General Area / Location Description *</label>
+              <input type="text" id="location_text" class="form-control" required placeholder="e.g. Science Block 1st floor water dispenser">
+              <span class="form-help">Do not enter personal residential addresses.</span>
+            </div>
+
+            <!-- Observed Date -->
+            <div class="form-group">
+              <label for="observed_on" class="form-label">Date Observed *</label>
+              <input type="date" id="observed_on" class="form-control" required>
+            </div>
+
+            <!-- Description -->
+            <div class="form-group">
+              <label for="description" class="form-label">Incident Details *</label>
+              <textarea id="description" class="form-control" rows="4" required placeholder="Describe what you saw: e.g. continuous leak from pipe joint..."></textarea>
+            </div>
+
+            <div style="background-color: var(--bg-subtle); border-left: 3px solid var(--teal-primary); padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+              <strong>Privacy Assurance:</strong> Reports are submitted without collecting your name or contact details. You will receive a unique reference code to check progress.
+            </div>
+
+            <div style="display: flex; gap: 1rem; align-items: center;">
+              <button type="submit" class="btn btn-primary" id="btn-submit">Submit Report</button>
+              <a href="index.html" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Success Confirmation (Hidden initially) -->
+      <div class="form-container" id="report-success-container" style="display: none; text-align: center;">
+        <div class="card" style="padding: 2.5rem 2rem;">
+          <div style="width: 56px; height: 56px; background-color: var(--status-resolved-bg); color: var(--status-resolved-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+          </div>
+          <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+            Thank You for Reporting!
+          </h1>
+          <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem auto;">
+            Your report has been saved. Please copy your unique reference code below to track status updates:
+          </p>
+
+          <div class="code-display">
+            <span class="code-text" id="generated-code">JR-XXXXXXXXXX</span>
+          </div>
+
+          <div style="margin-bottom: 2rem;">
+            <button type="button" class="btn btn-secondary" id="btn-copy">
+              Copy Reference Code
+            </button>
+          </div>
+
+          <div style="display: flex; justify-content: center; gap: 1rem;">
+            <a href="track.html" class="btn btn-primary" id="btn-track-link">Check Status Now</a>
+            <a href="index.html" class="btn btn-secondary">Return Home</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set today's date default
+      const dateInput = document.getElementById('observed_on');
+      const today = new Date().toISOString().split('T')[0];
+      dateInput.value = today;
+      dateInput.max = today;
+
+      const form = document.getElementById('static-report-form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const code = generateReferenceCode();
+        const newReport = {
+          reference_code: code,
+          category: document.getElementById('category').value,
+          location_text: document.getElementById('location_text').value.trim(),
+          description: document.getElementById('description').value.trim(),
+          observed_on: document.getElementById('observed_on').value,
+          status: 'Submitted',
+          public_update: 'Report received and queued for review.',
+          created_at: new Date().toISOString().replace('T', ' ').substring(0, 19)
+        };
+
+        saveReport(newReport);
+
+        // Show confirmation
+        document.getElementById('report-form-container').style.display = 'none';
+        document.getElementById('generated-code').innerText = code;
+        document.getElementById('btn-track-link').href = `track.html?code=${code}`;
+        document.getElementById('report-success-container').style.display = 'block';
+      });
+
+      // Copy Code
+      document.getElementById('btn-copy').addEventListener('click', () => {
+        const code = document.getElementById('generated-code').innerText;
+        navigator.clipboard.writeText(code).then(() => {
+          document.getElementById('btn-copy').innerText = '✓ Copied!';
+          setTimeout(() => { document.getElementById('btn-copy').innerText = 'Copy Reference Code'; }, 2000);
+        });
+      });
+    });
+  </script>
+</body>
+</html>

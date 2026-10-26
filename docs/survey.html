@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Community Awareness Survey — JalaRaksha</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-link">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 3C16 3 6 15 6 21C6 26.5228 10.4772 31 16 31C21.5228 31 26 26.5228 26 21C26 15 16 3 16 3Z" fill="#0E7490"/>
+          <path d="M16 12C16 12 11 18 11 21C11 23.7614 13.2386 26 16 26C18.7614 26 21 23.7614 21 21C21 18 16 12 16 12Z" fill="#67E8F9" opacity="0.6"/>
+          <path d="M16 25C13.5 25 12 21 12 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>JalaRaksha</span>
+      </a>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="report.html" class="nav-link">Report Wastage</a></li>
+          <li><a href="track.html" class="nav-link">Track Status</a></li>
+          <li><a href="awareness.html" class="nav-link">Conservation Tips</a></li>
+          <li><a href="survey.html" class="nav-link active">Community Survey</a></li>
+          <li><a href="admin.html" class="nav-link nav-admin-link">Admin Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="form-container">
+        
+        <div id="survey-form-section">
+          <div style="margin-bottom: 2rem;">
+            <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+              Community Water Awareness Survey
+            </h1>
+            <p style="color: var(--text-secondary); line-height: 1.5;">
+              This survey helps our student project team gather genuine data on local water conservation awareness and observed wastage patterns.
+            </p>
+          </div>
+
+          <div class="card">
+            <div style="background-color: var(--teal-tint); border-left: 4px solid var(--teal-primary); padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.875rem; color: var(--teal-deep);">
+              <strong>Privacy Protection:</strong> This survey is completely anonymous. We do not collect names, phone numbers, or private addresses.
+            </div>
+
+            <form id="static-survey-form">
+              <!-- Area -->
+              <div class="form-group">
+                <label for="survey_area" class="form-label">Broad Area / Landmark (Optional)</label>
+                <input type="text" id="survey_area" class="form-control" placeholder="e.g. North Campus, Ward 5 Market">
+              </div>
+
+              <!-- Question 1 -->
+              <div class="form-group">
+                <label class="form-label">1. Have you observed water wastage in your area recently? *</label>
+                <div class="radio-group">
+                  <label class="radio-item"><input type="radio" name="wastage" value="Yes" required><span>Yes</span></label>
+                  <label class="radio-item"><input type="radio" name="wastage" value="No"><span>No</span></label>
+                  <label class="radio-item"><input type="radio" name="wastage" value="Not sure"><span>Not sure</span></label>
+                </div>
+              </div>
+
+              <!-- Question 2 -->
+              <div class="form-group">
+                <label class="form-label">2. Which issues have you noticed? (Optional)</label>
+                <div class="checkbox-group">
+                  <label class="checkbox-item"><input type="checkbox" name="issues" value="Leaking tap/pipe"><span>Leaking tap/pipe</span></label>
+                  <label class="checkbox-item"><input type="checkbox" name="issues" value="Overflowing tank"><span>Overflowing tank</span></label>
+                  <label class="checkbox-item"><input type="checkbox" name="issues" value="Damaged public water outlet"><span>Damaged public water outlet</span></label>
+                  <label class="checkbox-item"><input type="checkbox" name="issues" value="Unnecessary water use"><span>Unnecessary water use</span></label>
+                </div>
+              </div>
+
+              <!-- Question 3 -->
+              <div class="form-group">
+                <label class="form-label">3. How would you rate your awareness of daily water-saving practices? *</label>
+                <div class="radio-group">
+                  <label class="radio-item"><input type="radio" name="awareness" value="Low" required><span>Low</span></label>
+                  <label class="radio-item"><input type="radio" name="awareness" value="Moderate"><span>Moderate</span></label>
+                  <label class="radio-item"><input type="radio" name="awareness" value="High"><span>High</span></label>
+                </div>
+              </div>
+
+              <!-- Question 4 -->
+              <div class="form-group">
+                <label class="form-label">4. To your knowledge, is rainwater harvesting practiced in buildings in your community? *</label>
+                <div class="radio-group">
+                  <label class="radio-item"><input type="radio" name="rwh" value="Yes" required><span>Yes</span></label>
+                  <label class="radio-item"><input type="radio" name="rwh" value="No"><span>No</span></label>
+                  <label class="radio-item"><input type="radio" name="rwh" value="Not sure"><span>Not sure</span></label>
+                </div>
+              </div>
+
+              <!-- Suggestion -->
+              <div class="form-group">
+                <label for="survey_suggestion" class="form-label">5. Any suggestion or comment regarding local water conservation? (Optional)</label>
+                <textarea id="survey_suggestion" class="form-control" rows="3" placeholder="Share your suggestions..."></textarea>
+              </div>
+
+              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                <button type="submit" class="btn btn-accent">Submit Survey Response</button>
+                <a href="index.html" class="btn btn-secondary">Cancel</a>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Success Acknowledgment -->
+        <div id="survey-success-section" style="display: none; text-align: center;">
+          <div class="card" style="padding: 2.5rem 2rem;">
+            <div style="width: 56px; height: 56px; background-color: var(--status-resolved-bg); color: var(--status-resolved-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+              Thank You for Your Feedback!
+            </h1>
+            <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem auto;">
+              Your response has been saved. It will be combined with other responses for our project report.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 1rem;">
+              <a href="awareness.html" class="btn btn-primary">Read Conservation Tips</a>
+              <a href="index.html" class="btn btn-secondary">Return Home</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('static-survey-form');
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const selectedIssues = Array.from(document.querySelectorAll('input[name="issues"]:checked')).map(cb => cb.value);
+        const wastage = document.querySelector('input[name="wastage"]:checked').value;
+        const awareness = document.querySelector('input[name="awareness"]:checked').value;
+        const rwh = document.querySelector('input[name="rwh"]:checked').value;
+
+        const newSurvey = {
+          area_label: document.getElementById('survey_area').value.trim() || 'General Area',
+          observed_wastage: wastage,
+          categories: selectedIssues,
+          awareness_level: awareness,
+          rainwater_harvesting: rwh,
+          suggestion: document.getElementById('survey_suggestion').value.trim(),
+          date: new Date().toISOString().split('T')[0]
+        };
+
+        saveSurvey(newSurvey);
+
+        document.getElementById('survey-form-section').style.display = 'none';
+        document.getElementById('survey-success-section').style.display = 'block';
+      });
+    });
+  </script>
+</body>
+</html>

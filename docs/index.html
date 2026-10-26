@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JalaRaksha — Community Water Protection</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-link">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <path d="M16 3C16 3 6 15 6 21C6 26.5228 10.4772 31 16 31C21.5228 31 26 26.5228 26 21C26 15 16 3 16 3Z" fill="#0E7490"/>
+          <path d="M16 12C16 12 11 18 11 21C11 23.7614 13.2386 26 16 26C18.7614 26 21 23.7614 21 21C21 18 16 12 16 12Z" fill="#67E8F9" opacity="0.6"/>
+          <path d="M16 25C13.5 25 12 21 12 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>JalaRaksha</span>
+      </a>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link active">Home</a></li>
+          <li><a href="report.html" class="nav-link">Report Wastage</a></li>
+          <li><a href="track.html" class="nav-link">Track Status</a></li>
+          <li><a href="awareness.html" class="nav-link">Conservation Tips</a></li>
+          <li><a href="survey.html" class="nav-link">Community Survey</a></li>
+          <li><a href="admin.html" class="nav-link nav-admin-link">Admin Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      
+      <!-- Hero Section -->
+      <section class="hero">
+        <div class="hero-tag">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+          Community Service Project
+        </div>
+        <h1 class="hero-title">JalaRaksha</h1>
+        <div class="hero-tagline">“Small actions. Responsible water use. Stronger communities.”</div>
+        <p class="hero-description">
+          Clean water is a vital community resource. In public spaces and campus facilities, leaking taps, overflowing overhead tanks, and damaged outlets often go unnoticed or unaddressed. JalaRaksha gives community members a direct, accountable way to report observations, track review progress, and learn practical water conservation habits.
+        </p>
+        <div class="hero-actions">
+          <a href="report.html" class="btn btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+            Report Water Wastage
+          </a>
+          <a href="track.html" class="btn btn-secondary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            Track a Report
+          </a>
+          <a href="awareness.html" class="btn btn-secondary">Learn Conservation Tips</a>
+          <a href="survey.html" class="btn btn-secondary">Take Community Survey</a>
+        </div>
+      </section>
+
+      <!-- Dynamic Live Stats -->
+      <section style="margin-bottom: 2.5rem;">
+        <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--teal-deep); margin-bottom: 1rem;">
+          Community Report Activity
+        </h2>
+        <div class="grid-3" id="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">Total Reports Logged</div>
+            <div class="stat-number" id="stat-total">0</div>
+            <div class="stat-subtext">Documented community observations</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">In Review / In Progress</div>
+            <div class="stat-number" id="stat-progress">0</div>
+            <div class="stat-subtext">Currently being assessed or handled</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Verified Resolved</div>
+            <div class="stat-number" id="stat-resolved">0</div>
+            <div class="stat-subtext">Inspected and verified outcomes</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Features Overview -->
+      <section style="margin-bottom: 2.5rem;">
+        <h2 style="font-size: 1.35rem; font-weight: 700; color: var(--teal-deep); margin-bottom: 1.25rem;">
+          How JalaRaksha Works
+        </h2>
+        <div class="grid-3">
+          <div class="card">
+            <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+            </div>
+            <h3 class="card-title">1. Observe & Report</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              Notice a leaking pipe, dripping public valve, or overflowing storage tank? Record it with broad location details. No account required.
+            </p>
+          </div>
+
+          <div class="card">
+            <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+            </div>
+            <h3 class="card-title">2. Track with Reference Code</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              Every submission generates a private, unique reference code (e.g. <code>JR-DEMO0001A</code>). Check status updates without compromising your privacy.
+            </p>
+          </div>
+
+          <div class="card">
+            <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <h3 class="card-title">3. Verified Resolution</h3>
+            <p style="color: var(--text-secondary); font-size: 0.95rem;">
+              Administrators and student volunteers review reports, coordinate maintenance, and publish verified updates. No false impact metrics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Survey CTA Banner -->
+      <section class="card" style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFEFF 100%); border-color: #BBF7D0;">
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;">
+          <div>
+            <h2 style="font-size: 1.35rem; color: var(--green-accent); margin-bottom: 0.4rem;">
+              Help Assess Local Water Awareness
+            </h2>
+            <p style="color: var(--text-secondary); max-width: 620px;">
+              Take our quick 2-minute anonymous survey. Your answers help document real community conditions, conservation awareness, and rainwater harvesting practices.
+            </p>
+          </div>
+          <div>
+            <a href="survey.html" class="btn btn-accent">Participate in Survey</a>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand">JalaRaksha</div>
+          <p style="max-width: 420px; margin-top: 0.35rem; line-height: 1.5;">
+            A student-led computer science community service initiative dedicated to documenting visible water wastage, fostering local awareness, and encouraging responsible stewardship.
+          </p>
+        </div>
+        <div>
+          <strong style="color: var(--text-primary); display: block; margin-bottom: 0.5rem;">Quick Navigation</strong>
+          <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.35rem;">
+            <li><a href="report.html">Submit Wastage Report</a></li>
+            <li><a href="track.html">Track Report by Reference Code</a></li>
+            <li><a href="awareness.html">Practical Conservation Measures</a></li>
+            <li><a href="survey.html">Anonymous Community Survey</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>GitHub Pages static showcase for college demonstration. Developed for JalaRaksha CSP.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const reports = getReports();
+      const total = reports.length;
+      const progress = reports.filter(r => r.status === 'Under Review' || r.status === 'In Progress').length;
+      const resolved = reports.filter(r => r.status === 'Resolved').length;
+
+      document.getElementById('stat-total').innerText = total;
+      document.getElementById('stat-progress').innerText = progress;
+      document.getElementById('stat-resolved').innerText = resolved;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Report Status — JalaRaksha</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="brand-link">
+        <svg class="brand-logo-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 3C16 3 6 15 6 21C6 26.5228 10.4772 31 16 31C21.5228 31 26 26.5228 26 21C26 15 16 3 16 3Z" fill="#0E7490"/>
+          <path d="M16 12C16 12 11 18 11 21C11 23.7614 13.2386 26 16 26C18.7614 26 21 23.7614 21 21C21 18 16 12 16 12Z" fill="#67E8F9" opacity="0.6"/>
+          <path d="M16 25C13.5 25 12 21 12 21" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span>JalaRaksha</span>
+      </a>
+
+      <button class="mobile-nav-toggle" aria-label="Toggle navigation menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
+
+      <nav>
+        <ul class="nav-menu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="report.html" class="nav-link">Report Wastage</a></li>
+          <li><a href="track.html" class="nav-link active">Track Status</a></li>
+          <li><a href="awareness.html" class="nav-link">Conservation Tips</a></li>
+          <li><a href="survey.html" class="nav-link">Community Survey</a></li>
+          <li><a href="admin.html" class="nav-link nav-admin-link">Admin Dashboard</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-content">
+    <div class="container">
+      <div class="form-container">
+        
+        <div style="margin-bottom: 2rem; text-align: center;">
+          <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+            Track Report Progress
+          </h1>
+          <p style="color: var(--text-secondary); max-width: 540px; margin: 0 auto;">
+            Enter the unique reference code (e.g., <code>JR-DEMO0001A</code>) generated when your report was logged.
+          </p>
+        </div>
+
+        <!-- Search Form -->
+        <div class="card" style="margin-bottom: 2rem;">
+          <form id="track-form">
+            <div class="form-group" style="margin-bottom: 0;">
+              <label for="track-code-input" class="form-label">Report Reference Code</label>
+              <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="track-code-input" class="form-control" placeholder="e.g. JR-DEMO0001A" style="font-family: monospace; font-size: 1.1rem; text-transform: uppercase;" required>
+                <button type="submit" class="btn btn-primary" style="white-space: nowrap;">Track Status</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- Result Container -->
+        <div id="track-result-container" style="display: none;"></div>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="js/app.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('track-form');
+      const input = document.getElementById('track-code-input');
+      const resultBox = document.getElementById('track-result-container');
+
+      function performLookup(code) {
+        if (!code) return;
+        const report = getReportByCode(code);
+        resultBox.style.display = 'block';
+
+        if (report) {
+          let badgeClass = 'badge-submitted';
+          if (report.status === 'Under Review') badgeClass = 'badge-under-review';
+          else if (report.status === 'In Progress') badgeClass = 'badge-in-progress';
+          else if (report.status === 'Resolved') badgeClass = 'badge-resolved';
+          else if (report.status === 'Rejected') badgeClass = 'badge-rejected';
+
+          resultBox.innerHTML = `
+            <div class="card" style="border-top: 4px solid var(--teal-primary);">
+              <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;">
+                <div>
+                  <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); display: block;">Report Reference</span>
+                  <span style="font-size: 1.4rem; font-weight: 800; color: var(--teal-deep); font-family: monospace;">${report.reference_code}</span>
+                </div>
+                <div>
+                  <span class="badge ${badgeClass}">${report.status}</span>
+                </div>
+              </div>
+
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; padding: 1rem 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); margin-bottom: 1.25rem;">
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Issue Category</span>
+                  <strong style="color: var(--text-primary);">${report.category}</strong>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Broad Area</span>
+                  <strong style="color: var(--text-primary);">${report.location_text}</strong>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Date Observed</span>
+                  <strong style="color: var(--text-primary);">${report.observed_on}</strong>
+                </div>
+                <div>
+                  <span style="font-size: 0.8rem; color: var(--text-muted); display: block;">Submitted Date</span>
+                  <strong style="color: var(--text-primary);">${report.created_at || 'Recently'}</strong>
+                </div>
+              </div>
+
+              <div>
+                <h3 style="font-size: 1rem; font-weight: 700; color: var(--teal-deep); margin-bottom: 0.4rem;">
+                  Latest Public Status Update
+                </h3>
+                <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); font-size: 0.95rem; color: var(--text-primary); line-height: 1.5;">
+                  ${report.public_update || 'Report received and queued for review.'}
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          resultBox.innerHTML = `
+            <div class="card empty-state" style="border-top: 4px solid var(--status-review-text);">
+              <div class="empty-state-title">No report found for that reference code.</div>
+              <p class="empty-state-desc">
+                Please verify the code and try again. Example format: <code>JR-DEMO0001A</code>.
+              </p>
+            </div>
+          `;
+        }
+      }
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        performLookup(input.value.trim());
+      });
+
+      // Check query parameter ?code=...
+      const urlParams = new URLSearchParams(window.location.search);
+      const codeParam = urlParams.get('code');
+      if (codeParam) {
+        input.value = codeParam;
+        performLookup(codeParam);
+      }
+    });
+  </script>
+</body>
+</html>
