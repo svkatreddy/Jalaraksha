@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Internal Server Error (500){% endblock %}
+
+{% block content %}
+<div class="form-container" style="text-align: center;">
+  <div class="card" style="padding: 3rem 2rem;">
+    <div style="width: 56px; height: 56px; background-color: var(--status-rejected-bg); color: var(--status-rejected-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+    </div>
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      500 — Internal Server Error
+    </h1>
+    <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem auto; line-height: 1.5;">
+      An unexpected internal error occurred while processing this request. The issue has been safely recorded and database transactions rolled back.
+    </p>
+    <div>
+      <a href="{{ url_for('public.index') }}" class="btn btn-primary">Return to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

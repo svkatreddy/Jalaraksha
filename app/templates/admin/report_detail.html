@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Report {{ report.reference_code }} — Admin{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 1.5rem;">
+  <a href="{{ url_for('admin.reports_list') }}" style="font-size: 0.9rem; font-weight: 600; display: inline-flex; align-items: center; gap: 0.35rem; margin-bottom: 0.75rem;">
+    &larr; Back to Reports List
+  </a>
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+    <div>
+      <span style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;">
+        Incident Review (Internal ID: #{{ report.id }})
+      </span>
+      <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); font-family: monospace;">
+        {{ report.reference_code }}
+      </h1>
+    </div>
+    <div>
+      {% if report.status == 'Submitted' %}
+        <span class="badge badge-submitted" style="font-size: 0.95rem; padding: 0.4rem 1rem;">Submitted</span>
+      {% elif report.status == 'Under Review' %}
+        <span class="badge badge-under-review" style="font-size: 0.95rem; padding: 0.4rem 1rem;">Under Review</span>
+      {% elif report.status == 'In Progress' %}
+        <span class="badge badge-in-progress" style="font-size: 0.95rem; padding: 0.4rem 1rem;">In Progress</span>
+      {% elif report.status == 'Resolved' %}
+        <span class="badge badge-resolved" style="font-size: 0.95rem; padding: 0.4rem 1rem;">Resolved</span>
+      {% elif report.status == 'Rejected' %}
+        <span class="badge badge-rejected" style="font-size: 0.95rem; padding: 0.4rem 1rem;">Rejected</span>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="grid-2" style="margin-bottom: 2rem;">
+  <!-- Left Column: Report Details & Photo -->
+  <div>
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <h2 class="card-title">Observation Details</h2>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.85rem; font-size: 0.95rem;">
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Category</span>
+          <strong>{{ report.category }}</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Location</span>
+          <strong>{{ report.location_text }}</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Date Observed</span>
+          <strong>{{ report.observed_on.strftime('%B %d, %Y') }}</strong>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Submitted On</span>
+          <span>{{ report.created_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+        </div>
+        <div>
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Last Updated</span>
+          <span>{{ report.updated_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}</span>
+        </div>
+        {% if report.resolved_at %}
+          <div>
+            <span style="color: var(--text-muted); display: block; font-size: 0.8rem;">Verified Resolved At</span>
+            <span style="color: var(--status-resolved-text); font-weight: 600;">
+              {{ report.resolved_at.strftime('%Y-%m-%d %H:%M:%S UTC') }}
+            </span>
+          </div>
+        {% endif %}
+      </div>
+
+      <div style="margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+        <span style="color: var(--text-muted); display: block; font-size: 0.8rem; margin-bottom: 0.35rem;">Full Incident Description</span>
+        <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); line-height: 1.5; color: var(--text-primary);">
+          {{ report.description }}
+        </div>
+      </div>
+
+      <!-- Uploaded Photograph (If present) -->
+      {% if report.image_filename %}
+        <div style="margin-top: 1.5rem; padding-top: 1.25rem; border-top: 1px solid var(--border-color);">
+          <span style="color: var(--text-muted); display: block; font-size: 0.8rem; margin-bottom: 0.5rem;">Uploaded Image Attachment (Admin-Only View)</span>
+          <div style="border: 1px solid var(--border-color); border-radius: var(--radius-sm); overflow: hidden; max-width: 400px;">
+            <img src="{{ url_for('admin.view_upload', filename=report.image_filename) }}" alt="Incident observation photo" style="width: 100%; height: auto; max-height: 350px; object-fit: contain; background-color: #000;">
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Audit Status History Log -->
+    <div class="card">
+      <h2 class="card-title">Status Audit Trail</h2>
+      {% if history %}
+        <ul class="timeline">
+          {% for h in history %}
+            <li class="timeline-item">
+              <div class="timeline-date">{{ h.created_at.strftime('%Y-%m-%d %H:%M UTC') }}</div>
+              <div class="timeline-title">
+                Status changed to: <strong>{{ h.new_status }}</strong>
+                {% if h.old_status %}
+                  <span style="color: var(--text-muted); font-size: 0.8rem; font-weight: normal;">(from {{ h.old_status }})</span>
+                {% endif %}
+                {% if h.admin %}
+                  <span style="color: var(--text-muted); font-size: 0.8rem; font-weight: normal;">by {{ h.admin.username }}</span>
+                {% endif %}
+              </div>
+              {% if h.public_update %}
+                <div class="timeline-desc" style="margin-top: 0.25rem;">
+                  <strong>Public update:</strong> {{ h.public_update }}
+                </div>
+              {% endif %}
+              {% if h.internal_note %}
+                <div class="timeline-desc" style="color: var(--text-muted); font-style: italic; margin-top: 0.2rem;">
+                  <strong>Internal note:</strong> {{ h.internal_note }}
+                </div>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p style="color: var(--text-muted); font-size: 0.9rem;">No status history recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Right Column: Update Status Form -->
+  <div>
+    <div class="card" style="border-top: 4px solid var(--teal-primary);">
+      <h2 class="card-title">Update Status & Notes</h2>
+      <p style="color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1.25rem;">
+        Status transitions must be verified. Public updates appear on the reporter's tracking screen; internal notes remain strictly confidential.
+      </p>
+
+      <form method="POST" novalidate id="update-status-form">
+        {{ form.hidden_tag() }}
+
+        <!-- Status Choice -->
+        <div class="form-group">
+          <label for="{{ form.status.id }}" class="form-label">
+            {{ form.status.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+          </label>
+          {{ form.status(class="form-control" + (" is-invalid" if form.status.errors else "")) }}
+          {% for err in form.status.errors %}
+            <div class="form-error">{{ err }}</div>
+          {% endfor %}
+        </div>
+
+        <!-- Public Update -->
+        <div class="form-group">
+          <label for="{{ form.public_update.id }}" class="form-label">
+            {{ form.public_update.label.text }}
+          </label>
+          {{ form.public_update(class="form-control" + (" is-invalid" if form.public_update.errors else ""), rows="3", placeholder="e.g., Campus maintenance dispatched; float valve replaced.") }}
+          <span class="form-help">{{ form.public_update.description }}</span>
+          {% for err in form.public_update.errors %}
+            <div class="form-error">{{ err }}</div>
+          {% endfor %}
+        </div>
+
+        <!-- Internal Admin Note -->
+        <div class="form-group">
+          <label for="{{ form.internal_note.id }}" class="form-label">
+            {{ form.internal_note.label.text }}
+          </label>
+          {{ form.internal_note(class="form-control" + (" is-invalid" if form.internal_note.errors else ""), rows="3", placeholder="Confidential operational notes: e.g., verified on site by team lead...") }}
+          <span class="form-help">{{ form.internal_note.description }}</span>
+          {% for err in form.internal_note.errors %}
+            <div class="form-error">{{ err }}</div>
+          {% endfor %}
+        </div>
+
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+          {{ form.submit(class="btn btn-primary", id="btn-save-update") }}
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

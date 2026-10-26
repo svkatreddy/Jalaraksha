@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block title %}Survey Analytics — Admin{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+  <div>
+    <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.25rem;">
+      Community Survey Analytics
+    </h1>
+    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+      Aggregated responses collected from fieldwork and campus participants.
+    </p>
+  </div>
+  <div>
+    <a href="{{ url_for('admin.dashboard') }}" class="btn btn-secondary btn-sm">
+      &larr; Back to Dashboard
+    </a>
+  </div>
+</div>
+
+<!-- Honest Data Advisory Notice -->
+<div style="background-color: var(--teal-tint); border: 1px solid var(--teal-light); border-left: 4px solid var(--teal-primary); padding: 1rem 1.25rem; border-radius: var(--radius-sm); margin-bottom: 2rem; font-size: 0.9rem; color: var(--teal-deep);">
+  <strong>Fieldwork Integrity Notice:</strong> These figures summarize only the responses actually submitted into this local database (Total: <strong>{{ total_count }}</strong> response{{ 's' if total_count != 1 else '' }}). Do not extrapolate a small sample size to represent the entire metropolitan population. In your community project presentation, cite this exact sample count and collection timeframe.
+</div>
+
+{% if total_count > 0 %}
+  <div class="grid-2" style="margin-bottom: 2rem;">
+    <!-- Wastage Observation Distribution -->
+    <div class="card">
+      <h2 class="card-title">1. Observed Water Wastage in Area</h2>
+      <div class="bar-chart">
+        {% for choice, count in observed_dist.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ choice }}</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Awareness Level Distribution -->
+    <div class="card">
+      <h2 class="card-title">2. Self-Rated Awareness Level</h2>
+      <div class="bar-chart">
+        {% for choice, count in awareness_dist.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ choice }} Awareness</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill accent" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Rainwater Harvesting Distribution -->
+    <div class="card">
+      <h2 class="card-title">3. Rainwater Harvesting Practice Observed</h2>
+      <div class="bar-chart">
+        {% for choice, count in rainwater_dist.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ choice }}</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Problem Categories Mentioned -->
+    <div class="card">
+      <h2 class="card-title">4. Wastage Issues Most Noticed</h2>
+      <div class="bar-chart">
+        {% for cat, count in category_counts.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int if total_count > 0 else 0 %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ cat }}</span>
+              <strong>{{ count }} mention{{ 's' if count != 1 else '' }}</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill accent" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Community Suggestions / Comments -->
+  <div class="card">
+    <h2 class="card-title" style="margin-bottom: 1rem;">Community Suggestions & Notes</h2>
+    {% if suggestions %}
+      <div style="display: flex; flex-direction: column; gap: 0.85rem;">
+        {% for s in suggestions %}
+          <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-sm); border-left: 3px solid var(--teal-primary);">
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+              Submitted on {{ s.date }} &bull; Area: <strong>{{ s.area }}</strong>
+            </div>
+            <div style="font-size: 0.95rem; color: var(--text-primary); line-height: 1.5;">
+              “{{ s.text }}”
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p style="color: var(--text-muted); font-size: 0.9rem;">
+        No text suggestions were included with the survey submissions.
+      </p>
+    {% endif %}
+  </div>
+{% else %}
+  <div class="card empty-state">
+    <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+      <polyline points="14 2 14 8 20 8"></polyline>
+      <line x1="16" y1="13" x2="8" y2="13"></line>
+      <line x1="16" y1="17" x2="8" y2="17"></line>
+      <polyline points="10 9 9 9 8 9"></polyline>
+    </svg>
+    <div class="empty-state-title">No survey responses collected yet</div>
+    <p class="empty-state-desc">
+      When community members or students complete the public survey form, aggregated statistics and response distributions will appear here automatically.
+    </p>
+  </div>
+{% endif %}
+{% endblock %}

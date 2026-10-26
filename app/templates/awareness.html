@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+
+{% block title %}Practical Water Conservation Guidance{% endblock %}
+
+{% block content %}
+<div style="max-width: 860px; margin: 0 auto;">
+  <!-- Header Banner -->
+  <div style="margin-bottom: 2.5rem; text-align: center;">
+    <h1 style="font-size: 2.2rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.75rem;">
+      Water Conservation in Everyday Life
+    </h1>
+    <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 680px; margin: 0 auto; line-height: 1.6;">
+      Conserving water does not require expensive technology or drastic disruption. Consistent, small daily actions across homes, campuses, and neighborhoods prevent gallons of treated water from being lost.
+    </p>
+  </div>
+
+  <!-- Section 1: At Home -->
+  <section class="awareness-section" aria-labelledby="home-heading">
+    <div class="awareness-header">
+      <div style="width: 38px; height: 38px; background-color: var(--teal-tint); color: var(--teal-deep); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+      </div>
+      <h2 id="home-heading">1. At Home: Responsible Domestic Use</h2>
+    </div>
+
+    <div class="tip-card">
+      <h3>Turn off taps while brushing or soaping</h3>
+      <p>A running tap discharges between 6 to 9 litres of clean water per minute. Shutting the valve while brushing teeth, scrubbing dishes, or washing hands saves several buckets of water daily per person.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Inspect and repair household leaks promptly</h3>
+      <p>A single dripping tap leaking one drop per second can lose over 20 litres of clean water every day. Worn rubber washers, loose tap spouts, and leaking toilet cistern valves can be repaired quickly with standard plumbing parts.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Clean efficiently with buckets instead of open hoses</h3>
+      <p>Using a bucket and cloth to clean vehicles and floors uses roughly 80% less water than an open, pressurized garden hose left running continuously.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Reuse suitable greywater safely</h3>
+      <p>Rinse water from vegetables and pulse washing can safely be collected and poured onto ornamental plants and garden beds. <em>Note: Never use greywater for drinking or direct food preparation.</em></p>
+    </div>
+  </section>
+
+  <!-- Section 2: At School/College -->
+  <section class="awareness-section" aria-labelledby="campus-heading">
+    <div class="awareness-header">
+      <div style="width: 38px; height: 38px; background-color: var(--green-light); color: var(--green-accent); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"></path><path d="M6 12v5c3 3 9 3 12 0v-5"></path></svg>
+      </div>
+      <h2 id="campus-heading">2. At School and College: Institutional Stewardship</h2>
+    </div>
+
+    <div class="tip-card">
+      <h3>Report campus leaks and tank overflows immediately</h3>
+      <p>Overhead institutional tanks often overflow unobserved for hours during morning refill pumping cycles. Immediately alerting facility maintenance prevents thousands of litres from being squandered.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Careful use of shared facilities and water coolers</h3>
+      <p>Always ensure cooler push-taps and washroom taps have fully sealed after drinking or washing. Never prop taps open with objects.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Display visual awareness reminders</h3>
+      <p>Student clubs and volunteers can place respectful, concise reminder notices above washroom basins and drinking water stations to build a campus culture of conservation.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Engage in active student service projects</h3>
+      <p>Participate in campus plumbing audits and surveys like JalaRaksha to identify structural issues and document real findings for administration review.</p>
+    </div>
+  </section>
+
+  <!-- Section 3: In the Community -->
+  <section class="awareness-section" aria-labelledby="community-heading">
+    <div class="awareness-header">
+      <div style="width: 38px; height: 38px; background-color: var(--teal-tint); color: var(--teal-primary); border-radius: 8px; display: flex; align-items: center; justify-content: center;">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+      </div>
+      <h2 id="community-heading">3. In the Community: Shared Public Outlets</h2>
+    </div>
+
+    <div class="tip-card">
+      <h3>Document damaged public taps and standposts</h3>
+      <p>Broken street standposts in public markets and roadsides frequently suffer damage. Documenting the location through JalaRaksha or contacting the local municipality expedites repair work.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Promote appropriate rainwater harvesting (RWH)</h3>
+      <p>Catchment systems, rooftop gutters, and recharge pits help replenish groundwater tables. Ensure collection pits are covered and mesh filters are maintained to prevent mosquito breeding and contamination.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Keep storm drains clear of plastic and debris</h3>
+      <p>Blocked stormwater channels lead to surface runoff flooding rather than healthy groundwater recharge. Disposing of plastic waste properly protects local waterways.</p>
+    </div>
+
+    <div class="tip-card">
+      <h3>Safe practices: Never claim non-potable water is safe to drink</h3>
+      <p>Recycled, harvested, or greywater must only be used for gardening, construction, or flushing unless formally certified through municipal lab testing.</p>
+    </div>
+  </section>
+
+  <!-- Section 4: How to Take Part -->
+  <section class="card" style="background: linear-gradient(135deg, #ECFEFF 0%, #FFFFFF 100%); border-color: #BAE6FD; padding: 2rem;">
+    <h2 style="font-size: 1.4rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.75rem;">
+      How You Can Take Part Right Now
+    </h2>
+    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+      JalaRaksha is an active community service project. You can directly contribute to our fieldwork:
+    </p>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <a href="{{ url_for('reports.new_report') }}" class="btn btn-primary">
+        Report an Active Water Leak
+      </a>
+      <a href="{{ url_for('survey.take_survey') }}" class="btn btn-secondary">
+        Fill Out the Awareness Survey
+      </a>
+    </div>
+  </section>
+</div>
+{% endblock %}

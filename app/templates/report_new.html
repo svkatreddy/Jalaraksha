@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Report Water Wastage{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      Report Water Wastage Incident
+    </h1>
+    <p style="color: var(--text-secondary); line-height: 1.5;">
+      Use this form to document visible water leaks, overflowing storage tanks, or broken public taps. Please provide broad location descriptions only; do not submit private personal details or exact home addresses.
+    </p>
+  </div>
+
+  <div class="card">
+    <form method="POST" enctype="multipart/form-data" novalidate id="report-form">
+      {{ form.hidden_tag() }}
+
+      <!-- Category -->
+      <div class="form-group">
+        <label for="{{ form.category.id }}" class="form-label">
+          {{ form.category.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        {{ form.category(class="form-control" + (" is-invalid" if form.category.errors else "")) }}
+        {% for err in form.category.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Area / Location -->
+      <div class="form-group">
+        <label for="{{ form.location_text.id }}" class="form-label">
+          {{ form.location_text.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        {{ form.location_text(class="form-control" + (" is-invalid" if form.location_text.errors else ""), placeholder="e.g., Campus Block B 1st Floor Washroom, Main Street Public Standpost") }}
+        <span class="form-help">{{ form.location_text.description }}</span>
+        {% for err in form.location_text.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Date Observed -->
+      <div class="form-group">
+        <label for="{{ form.observed_on.id }}" class="form-label">
+          {{ form.observed_on.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        {{ form.observed_on(class="form-control" + (" is-invalid" if form.observed_on.errors else ""), type="date") }}
+        <span class="form-help">Must be today or a past date within the last 12 months.</span>
+        {% for err in form.observed_on.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Incident Details -->
+      <div class="form-group">
+        <label for="{{ form.description.id }}" class="form-label">
+          {{ form.description.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        {{ form.description(class="form-control" + (" is-invalid" if form.description.errors else ""), rows="4", placeholder="Explain what you saw: e.g., continuous leak from pipe joint, tank overflow during morning refill, broken push tap.") }}
+        <span class="form-help">{{ form.description.description }}</span>
+        {% for err in form.description.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Optional Photograph Upload -->
+      <div class="form-group">
+        <label for="{{ form.photo.id }}" class="form-label">
+          {{ form.photo.label.text }}
+        </label>
+        {{ form.photo(class="form-control" + (" is-invalid" if form.photo.errors else ""), accept=".jpg,.jpeg,.png,.webp") }}
+        <span class="form-help">
+          Optional. Allowed formats: JPG, PNG, WebP up to 3 MB. Uploaded images are stored in a private directory and accessible strictly to authorized administrators for inspection.
+        </span>
+        {% for err in form.photo.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Privacy Notice -->
+      <div style="background-color: var(--bg-subtle); border-left: 3px solid var(--teal-primary); padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; color: var(--text-secondary);">
+        <strong>Privacy Assurance:</strong> Reports are submitted without collecting your name or contact details. After submitting, you will receive a unique reference code to check progress.
+      </div>
+
+      <!-- Form Actions -->
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        {{ form.submit(class="btn btn-primary", id="btn-submit-report") }}
+        <a href="{{ url_for('public.index') }}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

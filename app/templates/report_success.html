@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}Report Submitted Successfully{% endblock %}
+
+{% block content %}
+<div class="form-container" style="text-align: center;">
+  <div class="card" style="padding: 2.5rem 2rem;">
+    <!-- Success Icon -->
+    <div style="width: 56px; height: 56px; background-color: var(--status-resolved-bg); color: var(--status-resolved-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      Thank You for Reporting!
+    </h1>
+    <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem auto; line-height: 1.5;">
+      Your water wastage report has been securely saved to the database. Please copy and preserve your unique reference code below to check on its review status:
+    </p>
+
+    <!-- Reference Code Display -->
+    <div class="code-display">
+      <span class="code-text" id="report-code">{{ reference_code }}</span>
+    </div>
+
+    <div style="margin-bottom: 2rem;">
+      <button type="button" class="btn btn-secondary" data-copy-target="report-code" id="btn-copy-code">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+        Copy Reference Code
+      </button>
+    </div>
+
+    <div style="background-color: var(--bg-subtle); border-radius: var(--radius-sm); padding: 1rem; text-align: left; font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 2rem;">
+      <strong style="color: var(--text-primary); display: block; margin-bottom: 0.25rem;">Important Note:</strong>
+      This reference code is your private tracking key. Anyone with this code can check the general progress of this report. For privacy reasons, your full report description and internal administrative notes are not shared publicly.
+    </div>
+
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+      <a href="{{ url_for('reports.track_report', reference_code=reference_code) }}" class="btn btn-primary" id="btn-track-now">
+        Check Report Status Now
+      </a>
+      <a href="{{ url_for('public.index') }}" class="btn btn-secondary">
+        Return to Home
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

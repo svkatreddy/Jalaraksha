@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}Bad Request (400){% endblock %}
+
+{% block content %}
+<div class="form-container" style="text-align: center;">
+  <div class="card" style="padding: 3rem 2rem;">
+    <div style="width: 56px; height: 56px; background-color: var(--status-review-bg); color: var(--status-review-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+    </div>
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      Request Could Not Be Processed
+    </h1>
+    <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem auto; line-height: 1.5;">
+      {{ message or "The submitted request contained invalid parameters or exceeded upload limits." }}
+    </p>
+    <div>
+      <a href="{{ url_for('public.index') }}" class="btn btn-primary">Return to Home</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

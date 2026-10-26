@@ -1,0 +1,183 @@
+{% extends 'base.html' %}
+
+{% block title %}Admin Dashboard{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+  <div>
+    <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.25rem;">
+      Administrator Operations Dashboard
+    </h1>
+    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+      Real-time overview calculated from saved SQLite database records.
+    </p>
+  </div>
+  <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+    <a href="{{ url_for('admin.reports_list') }}" class="btn btn-secondary btn-sm">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+      Manage Reports
+    </a>
+    <a href="{{ url_for('admin.export_reports_csv') }}" class="btn btn-secondary btn-sm" id="btn-export-csv">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export CSV
+    </a>
+    <a href="{{ url_for('admin.survey_results') }}" class="btn btn-accent btn-sm">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10"></path><path d="M12 20V4"></path><path d="M6 20v-6"></path></svg>
+      Survey Analytics ({{ total_surveys }})
+    </a>
+  </div>
+</div>
+
+<!-- Status Metrics Grid -->
+<div class="grid-4" style="margin-bottom: 2rem;">
+  <div class="stat-card">
+    <div class="stat-label">Total Reports</div>
+    <div class="stat-number">{{ total_reports }}</div>
+    <div class="stat-subtext">All community submissions</div>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid var(--status-submitted-text);">
+    <div class="stat-label">Submitted</div>
+    <div class="stat-number" style="color: var(--status-submitted-text);">{{ status_counts.get('Submitted', 0) }}</div>
+    <div class="stat-subtext">Awaiting initial review</div>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid var(--status-review-text);">
+    <div class="stat-label">Review / Progress</div>
+    <div class="stat-number" style="color: var(--status-review-text);">
+      {{ status_counts.get('Under Review', 0) + status_counts.get('In Progress', 0) }}
+    </div>
+    <div class="stat-subtext">Active investigation/work</div>
+  </div>
+  <div class="stat-card" style="border-left: 4px solid var(--status-resolved-text);">
+    <div class="stat-label">Resolved</div>
+    <div class="stat-number" style="color: var(--status-resolved-text);">{{ status_counts.get('Resolved', 0) }}</div>
+    <div class="stat-subtext">Verified outcomes</div>
+  </div>
+</div>
+
+<!-- Breakdown Charts & Top Areas -->
+<div class="grid-2" style="margin-bottom: 2rem;">
+  <!-- Categories Breakdown -->
+  <div class="card">
+    <h2 class="card-title">Reports by Category</h2>
+    {% if total_reports > 0 %}
+      <div class="bar-chart">
+        {% for cat in categories %}
+          {% set count = category_counts.get(cat, 0) %}
+          {% set pct = ((count / total_reports) * 100)|round|int if total_reports > 0 else 0 %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ cat }}</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state" style="padding: 1.5rem 0;">
+        <div class="empty-state-title">No categories to display</div>
+        <div class="empty-state-desc">Counts will appear once reports are logged.</div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Top Locations Breakdown -->
+  <div class="card">
+    <h2 class="card-title">Frequently Reported Locations</h2>
+    {% if top_areas %}
+      <div class="bar-chart">
+        {% set max_loc_cnt = top_areas[0].count if top_areas else 1 %}
+        {% for area in top_areas %}
+          {% set pct = ((area.count / max_loc_cnt) * 100)|round|int %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span style="max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{ area.location }}
+              </span>
+              <strong>{{ area.count }} report{{ 's' if area.count != 1 else '' }}</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill accent" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-state" style="padding: 1.5rem 0;">
+        <div class="empty-state-title">No locations logged yet</div>
+        <div class="empty-state-desc">Areas will be compiled from community submissions.</div>
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Recent Reports Table -->
+<div class="card">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+    <h2 class="card-title" style="margin-bottom: 0;">Recent Submissions</h2>
+    <a href="{{ url_for('admin.reports_list') }}" style="font-size: 0.9rem; font-weight: 600;">
+      View All Reports &rarr;
+    </a>
+  </div>
+
+  {% if recent_reports %}
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Observed Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for r in recent_reports %}
+            <tr>
+              <td>
+                <strong style="font-family: monospace; color: var(--teal-deep);">{{ r.reference_code }}</strong>
+              </td>
+              <td>{{ r.category }}</td>
+              <td style="max-width: 220px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                {{ r.location_text }}
+              </td>
+              <td>{{ r.observed_on.strftime('%b %d, %Y') }}</td>
+              <td>
+                {% if r.status == 'Submitted' %}
+                  <span class="badge badge-submitted">Submitted</span>
+                {% elif r.status == 'Under Review' %}
+                  <span class="badge badge-under-review">Under Review</span>
+                {% elif r.status == 'In Progress' %}
+                  <span class="badge badge-in-progress">In Progress</span>
+                {% elif r.status == 'Resolved' %}
+                  <span class="badge badge-resolved">Resolved</span>
+                {% elif r.status == 'Rejected' %}
+                  <span class="badge badge-rejected">Rejected</span>
+                {% else %}
+                  <span class="badge">{{ r.status }}</span>
+                {% endif %}
+              </td>
+              <td>
+                <a href="{{ url_for('admin.report_detail', report_id=r.id) }}" class="btn btn-sm btn-secondary">
+                  Review
+                </a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <div class="empty-state" style="padding: 2.5rem 1rem;">
+      <div class="empty-state-title">No reports in database</div>
+      <p class="empty-state-desc">
+        There are currently no wastage reports logged. You can seed demo data for classroom testing using <code>flask seed-demo-data</code>.
+      </p>
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

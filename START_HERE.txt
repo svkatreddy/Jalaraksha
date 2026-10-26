@@ -1,0 +1,18 @@
+JALARAKSHA — HOW TO LOAD THIS PROJECT SPEC INTO ANTIGRAVITY
+
+IMPORTANT: You usually do not need to attach the .md or .docx file in the chat composer. Antigravity can read project instruction files from the opened workspace.
+
+1. Extract this ZIP into a folder, for example: Desktop\JalaRaksha.
+2. In Antigravity, open/create a project using that extracted folder as the workspace folder.
+3. Confirm that these two files appear in the workspace explorer:
+   - AGENTS.md
+   - PROJECT_SPEC.md
+4. Open the Antigravity agent/chat panel and send the prompt below:
+
+   Read AGENTS.md and PROJECT_SPEC.md from the current workspace. Follow the complete specification and build the actual JalaRaksha application in this workspace. Inspect the files first, implement the working Flask + SQLite app, create README.md and tests, run the tests, fix errors, and tell me exactly how to start it locally. Do not stop at a plan.
+
+5. If the agent cannot see the files, check that you opened the extracted JalaRaksha folder itself as the workspace (not its parent folder or the ZIP file).
+
+6. If the agent still cannot use workspace instructions, open PROJECT_SPEC.md in your editor, copy its text, and paste it into the agent prompt in sections. Begin with the product requirements, then send the database, UI, security, testing, and delivery sections as follow-up messages.
+
+This folder contains requirements/instructions only. It does not contain the finished application yet.

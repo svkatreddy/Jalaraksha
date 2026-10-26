@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}Page Not Found (404){% endblock %}
+
+{% block content %}
+<div class="form-container" style="text-align: center;">
+  <div class="card" style="padding: 3rem 2rem;">
+    <div style="width: 56px; height: 56px; background-color: var(--teal-tint); color: var(--teal-deep); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+    </div>
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      404 — Page Not Found
+    </h1>
+    <p style="color: var(--text-secondary); max-width: 480px; margin: 0 auto 1.5rem auto; line-height: 1.5;">
+      The requested page or record could not be found. If you are tracking a report, please verify your reference code.
+    </p>
+    <div>
+      <a href="{{ url_for('public.index') }}" class="btn btn-primary">Return to Home</a>
+      <a href="{{ url_for('reports.track_report') }}" class="btn btn-secondary" style="margin-left: 0.5rem;">Track a Report</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

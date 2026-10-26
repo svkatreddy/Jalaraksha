@@ -1,0 +1,150 @@
+{% extends 'base.html' %}
+
+{% block title %}Manage Reports — Admin{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.5rem;">
+  <div>
+    <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.25rem;">
+      Community Wastage Reports
+    </h1>
+    <p style="color: var(--text-secondary); font-size: 0.95rem;">
+      Filter, inspect, and update water wastage reports.
+    </p>
+  </div>
+  <div>
+    <a href="{{ url_for('admin.export_reports_csv') }}" class="btn btn-secondary btn-sm" id="btn-export-csv-reports">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      Export Permitted CSV
+    </a>
+  </div>
+</div>
+
+<!-- Filter Controls -->
+<div class="card" style="margin-bottom: 1.5rem; padding: 1.25rem 1.5rem;">
+  <form method="GET" action="{{ url_for('admin.reports_list') }}" id="reports-filter-form">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; align-items: flex-end;">
+      <!-- Status Filter -->
+      <div>
+        <label for="filter-status" class="form-label" style="font-size: 0.85rem;">Status</label>
+        <select name="status" id="filter-status" class="form-control" style="padding: 0.5rem 0.75rem;">
+          <option value="">All Statuses</option>
+          {% for st in statuses %}
+            <option value="{{ st }}" {% if selected_status == st %}selected{% endif %}>{{ st }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Category Filter -->
+      <div>
+        <label for="filter-category" class="form-label" style="font-size: 0.85rem;">Category</label>
+        <select name="category" id="filter-category" class="form-control" style="padding: 0.5rem 0.75rem;">
+          <option value="">All Categories</option>
+          {% for cat in categories %}
+            <option value="{{ cat }}" {% if selected_category == cat %}selected{% endif %}>{{ cat }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <!-- Area Search -->
+      <div>
+        <label for="filter-area" class="form-label" style="font-size: 0.85rem;">Area / Keyword</label>
+        <input type="text" name="area" id="filter-area" class="form-control" placeholder="Search location..." value="{{ search_area }}" style="padding: 0.5rem 0.75rem;">
+      </div>
+
+      <!-- Date From -->
+      <div>
+        <label for="filter-date-from" class="form-label" style="font-size: 0.85rem;">Observed From</label>
+        <input type="date" name="date_from" id="filter-date-from" class="form-control" value="{{ date_from }}" style="padding: 0.5rem 0.75rem;">
+      </div>
+
+      <!-- Date To -->
+      <div>
+        <label for="filter-date-to" class="form-label" style="font-size: 0.85rem;">Observed To</label>
+        <input type="date" name="date_to" id="filter-date-to" class="form-control" value="{{ date_to }}" style="padding: 0.5rem 0.75rem;">
+      </div>
+
+      <!-- Buttons -->
+      <div style="display: flex; gap: 0.5rem;">
+        <button type="submit" class="btn btn-primary btn-sm" style="flex: 1; padding: 0.55rem 0.8rem;">
+          Apply
+        </button>
+        <a href="{{ url_for('admin.reports_list') }}" class="btn btn-secondary btn-sm" style="padding: 0.55rem 0.8rem;">
+          Reset
+        </a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<!-- Reports Table -->
+{% if reports %}
+  <div class="table-responsive">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Reference Code</th>
+          <th>Category</th>
+          <th>Broad Area</th>
+          <th>Observed Date</th>
+          <th>Submitted (UTC)</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in reports %}
+          <tr>
+            <td>
+              <strong style="font-family: monospace; color: var(--teal-deep);">{{ r.reference_code }}</strong>
+            </td>
+            <td>{{ r.category }}</td>
+            <td style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+              {{ r.location_text }}
+            </td>
+            <td>{{ r.observed_on.strftime('%Y-%m-%d') }}</td>
+            <td>{{ r.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+            <td>
+              {% if r.status == 'Submitted' %}
+                <span class="badge badge-submitted">Submitted</span>
+              {% elif r.status == 'Under Review' %}
+                <span class="badge badge-under-review">Under Review</span>
+              {% elif r.status == 'In Progress' %}
+                <span class="badge badge-in-progress">In Progress</span>
+              {% elif r.status == 'Resolved' %}
+                <span class="badge badge-resolved">Resolved</span>
+              {% elif r.status == 'Rejected' %}
+                <span class="badge badge-rejected">Rejected</span>
+              {% else %}
+                <span class="badge">{{ r.status }}</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{{ url_for('admin.report_detail', report_id=r.id) }}" class="btn btn-sm btn-primary">
+                Open Report
+              </a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top: 1rem; font-size: 0.85rem; color: var(--text-muted); text-align: right;">
+    Showing {{ reports|length }} report record{{ 's' if reports|length != 1 else '' }}.
+  </div>
+{% else %}
+  <div class="card empty-state">
+    <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <div class="empty-state-title">No matching reports found</div>
+    <p class="empty-state-desc">
+      Try clearing your filters or search keywords to display all community submissions.
+    </p>
+    <div style="margin-top: 1rem;">
+      <a href="{{ url_for('admin.reports_list') }}" class="btn btn-sm btn-secondary">Clear Filters</a>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}

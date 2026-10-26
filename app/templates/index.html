@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Home — Community Water Protection{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero-tag">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+    Community Service Project
+  </div>
+  <h1 class="hero-title" id="hero-title">JalaRaksha</h1>
+  <div class="hero-tagline">“Small actions. Responsible water use. Stronger communities.”</div>
+  <p class="hero-description">
+    Clean water is a vital community resource. In public spaces and campus facilities, leaking taps, overflowing overhead tanks, and damaged outlets often go unnoticed or unaddressed. JalaRaksha gives community members a direct, accountable way to report observations, track review progress, and learn practical water conservation habits.
+  </p>
+  <div class="hero-actions">
+    <a href="{{ url_for('reports.new_report') }}" class="btn btn-primary" id="cta-report">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      Report Water Wastage
+    </a>
+    <a href="{{ url_for('reports.track_report') }}" class="btn btn-secondary" id="cta-track">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+      Track a Report
+    </a>
+    <a href="{{ url_for('public.awareness') }}" class="btn btn-secondary" id="cta-awareness">
+      Learn Conservation Tips
+    </a>
+    <a href="{{ url_for('survey.take_survey') }}" class="btn btn-secondary" id="cta-survey">
+      Take Community Survey
+    </a>
+  </div>
+</section>
+
+<!-- Live Community Metrics from SQLite Database -->
+<section style="margin-bottom: 2.5rem;" aria-labelledby="stats-heading">
+  <h2 id="stats-heading" style="font-size: 1.35rem; font-weight: 700; color: var(--teal-deep); margin-bottom: 1rem;">
+    Community Report Activity
+  </h2>
+
+  {% if stats.total > 0 %}
+    <div class="grid-3">
+      <div class="stat-card">
+        <div class="stat-label">Total Reports Logged</div>
+        <div class="stat-number">{{ stats.total }}</div>
+        <div class="stat-subtext">Documented community observations in database</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">In Review / In Progress</div>
+        <div class="stat-number">{{ stats.in_progress }}</div>
+        <div class="stat-subtext">Currently being assessed or handled</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Verified Resolved</div>
+        <div class="stat-number">{{ stats.resolved }}</div>
+        <div class="stat-subtext">Inspected and verified outcomes by team</div>
+      </div>
+    </div>
+  {% else %}
+    <div class="card empty-state">
+      <svg class="empty-state-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75">
+        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+      </svg>
+      <div class="empty-state-title">No community reports have been submitted yet.</div>
+      <p class="empty-state-desc">
+        Be the first to record a visible leak, overflowing tank, or damaged public tap in your area.
+      </p>
+      <div style="margin-top: 1.25rem;">
+        <a href="{{ url_for('reports.new_report') }}" class="btn btn-sm btn-primary">Submit First Report</a>
+      </div>
+    </div>
+  {% endif %}
+</section>
+
+<!-- Project Features Overview -->
+<section style="margin-bottom: 2.5rem;" aria-labelledby="features-heading">
+  <h2 id="features-heading" style="font-size: 1.35rem; font-weight: 700; color: var(--teal-deep); margin-bottom: 1.25rem;">
+    How JalaRaksha Works
+  </h2>
+  <div class="grid-3">
+    <div class="card">
+      <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg>
+      </div>
+      <h3 class="card-title">1. Observe & Report</h3>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">
+        Notice a leaking pipe, dripping public valve, or overflowing storage tank? Record it with broad location details. No registration required.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+      </div>
+      <h3 class="card-title">2. Track with Reference Code</h3>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">
+        Every submission generates a private, unique reference code (e.g., <code>JR-K7B4N9X2QW</code>). Check status updates without compromising your privacy.
+      </p>
+    </div>
+
+    <div class="card">
+      <div style="color: var(--teal-primary); margin-bottom: 0.75rem;">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+      </div>
+      <h3 class="card-title">3. Verified Resolution</h3>
+      <p style="color: var(--text-secondary); font-size: 0.95rem;">
+        Administrators and student volunteers review reports, coordinate maintenance, and publish verified updates. No false impact metrics.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Community Engagement CTA Banner -->
+<section class="card" style="background: linear-gradient(135deg, #F0FDF4 0%, #ECFEFF 100%); border-color: #BBF7D0;">
+  <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 1.5rem;">
+    <div>
+      <h2 style="font-size: 1.35rem; color: var(--green-accent); margin-bottom: 0.4rem;">
+        Help Assess Local Water Awareness
+      </h2>
+      <p style="color: var(--text-secondary); max-width: 620px;">
+        Take our quick 2-minute anonymous survey. Your answers help document real community conditions, conservation awareness, and rainwater harvesting practices.
+      </p>
+    </div>
+    <div>
+      <a href="{{ url_for('survey.take_survey') }}" class="btn btn-accent">
+        Participate in Survey
+      </a>
+    </div>
+  </div>
+</section>
+{% endblock %}

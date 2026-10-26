@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Survey Submitted — Thank You{% endblock %}
+
+{% block content %}
+<div class="form-container" style="text-align: center;">
+  <div class="card" style="padding: 2.5rem 2rem;">
+    <div style="width: 56px; height: 56px; background-color: var(--status-resolved-bg); color: var(--status-resolved-text); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem auto;">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+    </div>
+
+    <h1 style="font-size: 1.75rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      Thank You for Your Feedback!
+    </h1>
+    <p style="color: var(--text-secondary); max-width: 520px; margin: 0 auto 1.5rem auto; line-height: 1.5;">
+      Your responses have been recorded in the local database. The student project team will compile these aggregate findings for our community service project report.
+    </p>
+
+    <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+      <a href="{{ url_for('public.awareness') }}" class="btn btn-primary">
+        Read Conservation Tips
+      </a>
+      <a href="{{ url_for('public.index') }}" class="btn btn-secondary">
+        Return to Home
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

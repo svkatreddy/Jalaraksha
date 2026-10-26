@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Community Water Conservation Survey{% endblock %}
+
+{% block content %}
+<div class="form-container">
+  <div style="margin-bottom: 2rem;">
+    <h1 style="font-size: 1.85rem; font-weight: 800; color: var(--teal-deep); margin-bottom: 0.5rem;">
+      Community Water Awareness Survey
+    </h1>
+    <p style="color: var(--text-secondary); line-height: 1.5;">
+      This short survey helps our student project team gather genuine data on local water conservation awareness, observed wastage patterns, and rainwater harvesting practices.
+    </p>
+  </div>
+
+  <div class="card">
+    <!-- Privacy Notice -->
+    <div style="background-color: var(--teal-tint); border: 1px solid var(--teal-light); border-left: 4px solid var(--teal-primary); padding: 0.85rem 1rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.875rem; color: var(--teal-deep);">
+      <strong>Privacy Protection:</strong> This survey is completely anonymous. We do not collect names, contact numbers, email addresses, or precise residential addresses.
+    </div>
+
+    <form method="POST" novalidate id="survey-form">
+      {{ form.hidden_tag() }}
+
+      <!-- Area / Landmark -->
+      <div class="form-group">
+        <label for="{{ form.area_label.id }}" class="form-label">
+          {{ form.area_label.label.text }}
+        </label>
+        {{ form.area_label(class="form-control" + (" is-invalid" if form.area_label.errors else ""), placeholder="e.g., College South Zone, Ward 5 Market") }}
+        <span class="form-help">{{ form.area_label.description }}</span>
+        {% for err in form.area_label.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 1: Observed Wastage -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ form.observed_wastage.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        <div class="radio-group">
+          {% for subfield in form.observed_wastage %}
+            <label class="radio-item">
+              {{ subfield() }}
+              <span>{{ subfield.label.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for err in form.observed_wastage.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 2: Observed Categories (Multi-select) -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ form.observed_categories.label.text }}
+        </label>
+        <div class="checkbox-group">
+          {% for subfield in form.observed_categories %}
+            <label class="checkbox-item">
+              {{ subfield() }}
+              <span>{{ subfield.label.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for err in form.observed_categories.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 3: Awareness Level -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ form.awareness_level.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        <div class="radio-group">
+          {% for subfield in form.awareness_level %}
+            <label class="radio-item">
+              {{ subfield() }}
+              <span>{{ subfield.label.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for err in form.awareness_level.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 4: Rainwater Harvesting -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ form.rainwater_harvesting.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        <div class="radio-group">
+          {% for subfield in form.rainwater_harvesting %}
+            <label class="radio-item">
+              {{ subfield() }}
+              <span>{{ subfield.label.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for err in form.rainwater_harvesting.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 5: Suggestions / Feedback -->
+      <div class="form-group">
+        <label for="{{ form.suggestion.id }}" class="form-label">
+          {{ form.suggestion.label.text }}
+        </label>
+        {{ form.suggestion(class="form-control" + (" is-invalid" if form.suggestion.errors else ""), rows="3", placeholder="Share your suggestions for improving water conservation...") }}
+        <span class="form-help">{{ form.suggestion.description }}</span>
+        {% for err in form.suggestion.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <div style="margin-top: 1.75rem; display: flex; gap: 1rem;">
+        {{ form.submit(class="btn btn-accent", id="btn-submit-survey") }}
+        <a href="{{ url_for('public.index') }}" class="btn btn-secondary">Cancel</a>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
