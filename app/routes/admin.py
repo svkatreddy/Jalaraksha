@@ -12,7 +12,8 @@ from app.extensions import db
 from app.models import (
     AdminUser, WaterReport, ReportStatusHistory, SurveyResponse,
     REPORT_CATEGORIES, REPORT_STATUSES,
-    SURVEY_OBSERVED_CHOICES, SURVEY_AWARENESS_CHOICES, SURVEY_RAINWATER_CHOICES
+    SURVEY_OBSERVED_CHOICES, SURVEY_AWARENESS_CHOICES, SURVEY_RAINWATER_CHOICES,
+    SURVEY_RWH_PIT_CHOICES, SURVEY_CYCLONE_IMPACT_CHOICES
 )
 from app.forms import AdminLoginForm, AdminReportUpdateForm
 from app.utils import sanitize_csv_field
@@ -91,6 +92,29 @@ def dashboard():
 
     total_surveys = SurveyResponse.query.count()
 
+    # Climate Resilience Triage Grouping
+    emergency_categories = [
+        'Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
+        'Contaminated Public Water Source (Post-storm runoff)'
+    ]
+    routine_categories = [
+        'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
+        'Unnecessary Water Use / Negligence'
+    ]
+
+    emergency_count = sum(category_counts.get(c, 0) for c in emergency_categories)
+    routine_count = sum(category_counts.get(c, 0) for c in routine_categories)
+    other_count = category_counts.get('Other', 0)
+
+    triage_summary = {
+        'emergency_count': emergency_count,
+        'routine_count': routine_count,
+        'other_count': other_count,
+        'emergency_pct': round((emergency_count / total_reports * 100)) if total_reports > 0 else 0,
+        'routine_pct': round((routine_count / total_reports * 100)) if total_reports > 0 else 0,
+        'other_pct': round((other_count / total_reports * 100)) if total_reports > 0 else 0
+    }
+
     return render_template(
         'admin/dashboard.html',
         total_reports=total_reports,
@@ -100,7 +124,10 @@ def dashboard():
         recent_reports=recent_reports,
         total_surveys=total_surveys,
         statuses=REPORT_STATUSES,
-        categories=REPORT_CATEGORIES
+        categories=REPORT_CATEGORIES,
+        triage_summary=triage_summary,
+        emergency_categories=emergency_categories,
+        routine_categories=routine_categories
     )
 
 
@@ -268,6 +295,10 @@ def survey_results():
     awareness_dist = {k: 0 for k in SURVEY_AWARENESS_CHOICES}
     # Distribution of rainwater harvesting
     rainwater_dist = {k: 0 for k in SURVEY_RAINWATER_CHOICES}
+    # Distribution of functional RWH pits
+    rwh_pit_dist = {k: 0 for k in SURVEY_RWH_PIT_CHOICES}
+    # Distribution of Cyclone Arnab infrastructure impact
+    cyclone_impact_dist = {k: 0 for k in SURVEY_CYCLONE_IMPACT_CHOICES}
     # Category occurrences
     category_counts = {k: 0 for k in REPORT_CATEGORIES}
     suggestions = []
@@ -279,6 +310,10 @@ def survey_results():
             awareness_dist[r.awareness_level] += 1
         if r.rainwater_harvesting in rainwater_dist:
             rainwater_dist[r.rainwater_harvesting] += 1
+        if r.rwh_pit in rwh_pit_dist:
+            rwh_pit_dist[r.rwh_pit] += 1
+        if r.cyclone_impact in cyclone_impact_dist:
+            cyclone_impact_dist[r.cyclone_impact] += 1
         
         cats = r.get_categories()
         for cat in cats:
@@ -298,6 +333,8 @@ def survey_results():
         observed_dist=observed_dist,
         awareness_dist=awareness_dist,
         rainwater_dist=rainwater_dist,
+        rwh_pit_dist=rwh_pit_dist,
+        cyclone_impact_dist=cyclone_impact_dist,
         category_counts=category_counts,
         suggestions=suggestions
     )

@@ -6,7 +6,7 @@ from app.extensions import db
 def test_valid_report_submission(client, app):
     """Test 3: Valid report submission stores a record and returns reference code."""
     data = {
-        'category': 'Leaking tap/pipe',
+        'category': 'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
         'location_text': 'Science Block A Ground Floor Washroom',
         'observed_on': date.today().strftime('%Y-%m-%d'),
         'description': 'Continuous high drip from the central washbasin tap.'
@@ -33,7 +33,7 @@ def test_missing_required_field_rejected(client):
     """Test 4: Missing required fields are rejected with validation error."""
     # Omit location_text and description
     data = {
-        'category': 'Leaking tap/pipe',
+        'category': 'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
         'location_text': '',
         'observed_on': date.today().strftime('%Y-%m-%d'),
         'description': ''
@@ -48,7 +48,7 @@ def test_future_observed_date_rejected(client):
     """Test 5: Future observed date is rejected."""
     future_date = date.today() + timedelta(days=5)
     data = {
-        'category': 'Overflowing tank',
+        'category': 'Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
         'location_text': 'Hostel 1 Roof Tank',
         'observed_on': future_date.strftime('%Y-%m-%d'),
         'description': 'Future leak observation test.'
@@ -120,7 +120,7 @@ def test_public_tracking_never_exposes_internal_note(client, app):
 def test_unsupported_image_upload_rejected(client):
     """Test 17: Uploading unsupported file types (like .txt or .exe) is rejected."""
     data = {
-        'category': 'Leaking tap/pipe',
+        'category': 'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
         'location_text': 'Library Restroom',
         'observed_on': date.today().strftime('%Y-%m-%d'),
         'description': 'Tap leaking steadily.',

@@ -88,7 +88,7 @@
         {% endfor %}
       </div>
 
-      <!-- Question 4: Rainwater Harvesting -->
+      <!-- Question 4: Rainwater Harvesting General Practice -->
       <div class="form-group">
         <label class="form-label">
           {{ form.rainwater_harvesting.label.text }} <span style="color: var(--status-rejected-text);">*</span>
@@ -106,12 +106,41 @@
         {% endfor %}
       </div>
 
-      <!-- Question 5: Suggestions / Feedback -->
+      <!-- Question 5: Functional RWH Pit (Drought/Flood Resilience) -->
+      <div class="form-group">
+        <label class="form-label">
+          {{ form.rwh_pit.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        <div class="radio-group">
+          {% for subfield in form.rwh_pit %}
+            <label class="radio-item">
+              {{ subfield() }}
+              <span>{{ subfield.label.text }}</span>
+            </label>
+          {% endfor %}
+        </div>
+        {% for err in form.rwh_pit.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 6: Cyclone Arnab Infrastructure Impact -->
+      <div class="form-group">
+        <label for="{{ form.cyclone_impact.id }}" class="form-label">
+          {{ form.cyclone_impact.label.text }} <span style="color: var(--status-rejected-text);">*</span>
+        </label>
+        {{ form.cyclone_impact(class="form-control" + (" is-invalid" if form.cyclone_impact.errors else "")) }}
+        {% for err in form.cyclone_impact.errors %}
+          <div class="form-error">{{ err }}</div>
+        {% endfor %}
+      </div>
+
+      <!-- Question 7: Suggestions / Feedback -->
       <div class="form-group">
         <label for="{{ form.suggestion.id }}" class="form-label">
           {{ form.suggestion.label.text }}
         </label>
-        {{ form.suggestion(class="form-control" + (" is-invalid" if form.suggestion.errors else ""), rows="3", placeholder="Share your suggestions for improving water conservation...") }}
+        {{ form.suggestion(class="form-control" + (" is-invalid" if form.suggestion.errors else ""), rows="3", placeholder="Share your suggestions for improving water conservation or disaster resilience...") }}
         <span class="form-help">{{ form.suggestion.description }}</span>
         {% for err in form.suggestion.errors %}
           <div class="form-error">{{ err }}</div>

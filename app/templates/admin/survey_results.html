@@ -85,17 +85,56 @@
 
     <!-- Problem Categories Mentioned -->
     <div class="card">
-      <h2 class="card-title">4. Wastage Issues Most Noticed</h2>
+      <h2 class="card-title">4. Wastage & Damage Issues Noticed</h2>
       <div class="bar-chart">
         {% for cat, count in category_counts.items() %}
           {% set pct = ((count / total_count) * 100)|round|int if total_count > 0 else 0 %}
           <div class="bar-item">
             <div class="bar-header">
-              <span>{{ cat }}</span>
+              <span style="font-size: 0.88rem;">{{ cat }}</span>
               <strong>{{ count }} mention{{ 's' if count != 1 else '' }}</strong>
             </div>
             <div class="bar-track">
               <div class="bar-fill accent" style="width: {{ pct }}%;"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Functional RWH Pit Distribution -->
+    <div class="card">
+      <h2 class="card-title">5. Functional RWH Pit Presence</h2>
+      <div class="bar-chart">
+        {% for choice, count in rwh_pit_dist.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int if total_count > 0 else 0 %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span>{{ choice }}</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ pct }}%; background-color: var(--teal-primary);"></div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Cyclone Arnab Infrastructure Impact Distribution -->
+    <div class="card">
+      <h2 class="card-title">6. Cyclone Arnab Infrastructure Impact</h2>
+      <div class="bar-chart">
+        {% for choice, count in cyclone_impact_dist.items() %}
+          {% set pct = ((count / total_count) * 100)|round|int if total_count > 0 else 0 %}
+          {% set is_severe = choice in ['Major pipe bursts', 'Water contamination'] %}
+          <div class="bar-item">
+            <div class="bar-header">
+              <span style="{{ 'color: #DC2626; font-weight: 600;' if is_severe else '' }}">{{ choice }}</span>
+              <strong>{{ count }} ({{ pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ pct }}%; {{ 'background-color: #EF4444;' if is_severe else '' }}"></div>
             </div>
           </div>
         {% endfor %}

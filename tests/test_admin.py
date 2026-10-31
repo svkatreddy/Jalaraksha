@@ -42,7 +42,7 @@ def test_admin_update_report_status_and_audit_history(auth_client, app):
     with app.app_context():
         report = WaterReport(
             reference_code='JR-UPDATETEST',
-            category='Leaking tap/pipe',
+            category='Everyday Leak / Wastage (Taps, Pipes, Tanks)',
             location_text='Auditorium Basement',
             description='Slow drip under basin.',
             observed_on=date.today(),
@@ -81,7 +81,7 @@ def test_resolved_status_requires_resolution_note(auth_client, app):
     with app.app_context():
         report = WaterReport(
             reference_code='JR-RESOLVETEST',
-            category='Overflowing tank',
+            category='Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
             location_text='Cafeteria Water Tank',
             description='Overflow during noon.',
             observed_on=date.today(),
@@ -126,7 +126,7 @@ def test_dashboard_counts_match_database(auth_client, app):
     with app.app_context():
         r1 = WaterReport(
             reference_code='JR-DASH001',
-            category='Leaking tap/pipe',
+            category='Everyday Leak / Wastage (Taps, Pipes, Tanks)',
             location_text='Hostel 1',
             description='Test leak',
             observed_on=date.today(),
@@ -134,7 +134,7 @@ def test_dashboard_counts_match_database(auth_client, app):
         )
         r2 = WaterReport(
             reference_code='JR-DASH002',
-            category='Overflowing tank',
+            category='Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
             location_text='Hostel 2',
             description='Test overflow',
             observed_on=date.today(),

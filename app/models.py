@@ -6,10 +6,10 @@ from app.extensions import db, login_manager
 
 # Allowed Categories & Statuses
 REPORT_CATEGORIES = [
-    'Leaking tap/pipe',
-    'Overflowing tank',
-    'Damaged public water outlet',
-    'Unnecessary water use',
+    'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
+    'Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
+    'Contaminated Public Water Source (Post-storm runoff)',
+    'Unnecessary Water Use / Negligence',
     'Other'
 ]
 
@@ -24,6 +24,13 @@ REPORT_STATUSES = [
 SURVEY_OBSERVED_CHOICES = ['Yes', 'No', 'Not sure']
 SURVEY_AWARENESS_CHOICES = ['Low', 'Moderate', 'High']
 SURVEY_RAINWATER_CHOICES = ['Yes', 'No', 'Not sure']
+SURVEY_RWH_PIT_CHOICES = ['Yes', 'No', "Don't Know"]
+SURVEY_CYCLONE_IMPACT_CHOICES = [
+    'No damage',
+    'Minor leaks',
+    'Major pipe bursts',
+    'Water contamination'
+]
 
 
 class AdminUser(UserMixin, db.Model):
@@ -61,7 +68,7 @@ class WaterReport(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     # Cryptographically random reference code for public status tracking
     reference_code = db.Column(db.String(32), unique=True, nullable=False, index=True)
-    category = db.Column(db.String(64), nullable=False, index=True)
+    category = db.Column(db.String(128), nullable=False, index=True)
     location_text = db.Column(db.String(200), nullable=False)
     description = db.Column(db.Text, nullable=False)
     observed_on = db.Column(db.Date, nullable=False)
@@ -117,6 +124,8 @@ class SurveyResponse(db.Model):
     observed_categories = db.Column(db.Text, default='[]', nullable=False)
     awareness_level = db.Column(db.String(16), nullable=False)
     rainwater_harvesting = db.Column(db.String(16), nullable=False)
+    rwh_pit = db.Column(db.String(32), nullable=True)
+    cyclone_impact = db.Column(db.String(64), nullable=True)
     suggestion = db.Column(db.String(500), nullable=True)
     submitted_at = db.Column(db.DateTime, default=lambda: datetime.now(timezone.utc), nullable=False, index=True)
 

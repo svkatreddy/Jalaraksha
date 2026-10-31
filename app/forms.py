@@ -8,7 +8,8 @@ from wtforms import (
 from wtforms.validators import DataRequired, Length, Optional, ValidationError
 from app.models import (
     REPORT_CATEGORIES, REPORT_STATUSES,
-    SURVEY_OBSERVED_CHOICES, SURVEY_AWARENESS_CHOICES, SURVEY_RAINWATER_CHOICES
+    SURVEY_OBSERVED_CHOICES, SURVEY_AWARENESS_CHOICES, SURVEY_RAINWATER_CHOICES,
+    SURVEY_RWH_PIT_CHOICES, SURVEY_CYCLONE_IMPACT_CHOICES
 )
 
 class MultiCheckboxField(SelectMultipleField):
@@ -161,8 +162,18 @@ class SurveyForm(FlaskForm):
         choices=[(c, c) for c in SURVEY_RAINWATER_CHOICES],
         validators=[DataRequired(message="Please select an option.")]
     )
+    rwh_pit = RadioField(
+        '5. Does your residence or campus have a functional Rainwater Harvesting (RWH) pit?',
+        choices=[(c, c) for c in SURVEY_RWH_PIT_CHOICES],
+        validators=[DataRequired(message="Please indicate whether your residence or campus has an RWH pit.")]
+    )
+    cyclone_impact = SelectField(
+        '6. How was your local water infrastructure affected by the recent Cyclone Arnab?',
+        choices=[('', '-- Select Impact Level --')] + [(c, c) for c in SURVEY_CYCLONE_IMPACT_CHOICES],
+        validators=[DataRequired(message="Please select how infrastructure was affected by Cyclone Arnab.")]
+    )
     suggestion = TextAreaField(
-        '5. Any suggestion or comment regarding local water conservation? (Optional)',
+        '7. Any suggestion or comment regarding local water conservation or cyclone resilience? (Optional)',
         validators=[Optional(), Length(max=500, message="Suggestion cannot exceed 500 characters.")],
         description="Keep comments respectful and privacy-conscious (max 500 characters)."
     )

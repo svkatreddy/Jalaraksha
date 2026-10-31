@@ -54,23 +54,125 @@
   </div>
 </div>
 
+<!-- Climate Resilience & Emergency Triage Overview -->
+<div class="card" style="margin-bottom: 2rem; border-left: 5px solid #EF4444; background: linear-gradient(180deg, #FFFDFD 0%, #FFFFFF 100%);">
+  <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+    <div>
+      <h2 class="card-title" style="margin-bottom: 0.25rem; display: flex; align-items: center; gap: 0.5rem;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        Priority Triage: Post-Cyclone Damage vs. Routine Wastage
+      </h2>
+      <p style="color: var(--text-secondary); font-size: 0.9rem; margin: 0;">
+        Distinguish high-risk post-storm hazards from ongoing drought conservation leaks for rapid resource allocation.
+      </p>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <span class="badge" style="background-color: #FEE2E2; color: #991B1B; font-weight: 700; padding: 0.4rem 0.75rem; border-radius: 999px;">
+        {{ triage_summary.emergency_count }} Emergency Issue{{ 's' if triage_summary.emergency_count != 1 else '' }}
+      </span>
+      <span class="badge" style="background-color: var(--teal-tint); color: var(--teal-deep); font-weight: 700; padding: 0.4rem 0.75rem; border-radius: 999px;">
+        {{ triage_summary.routine_count }} Routine Preservation
+      </span>
+    </div>
+  </div>
+
+  {% if total_reports > 0 %}
+    <div class="grid-2" style="gap: 1.5rem;">
+      <!-- Grouped Triage Bar Chart -->
+      <div>
+        <h3 style="font-size: 0.95rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem;">
+          High-Level Triage Distribution
+        </h3>
+        <div class="bar-chart">
+          <!-- Emergency Post-Cyclone -->
+          <div class="bar-item">
+            <div class="bar-header">
+              <span style="display: flex; align-items: center; gap: 0.4rem; font-weight: 600; color: #DC2626;">
+                <span style="width: 10px; height: 10px; background-color: #DC2626; border-radius: 50%; display: inline-block;"></span>
+                Post-Cyclone Damage & Contamination (Urgent Triage)
+              </span>
+              <strong>{{ triage_summary.emergency_count }} ({{ triage_summary.emergency_pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ triage_summary.emergency_pct }}%; background-color: #DC2626;"></div>
+            </div>
+          </div>
+
+          <!-- Routine Wastage & Drought -->
+          <div class="bar-item">
+            <div class="bar-header">
+              <span style="display: flex; align-items: center; gap: 0.4rem; font-weight: 600; color: var(--teal-deep);">
+                <span style="width: 10px; height: 10px; background-color: var(--teal-primary); border-radius: 50%; display: inline-block;"></span>
+                Routine Leaks & Drought Preservation
+              </span>
+              <strong>{{ triage_summary.routine_count }} ({{ triage_summary.routine_pct }}%)</strong>
+            </div>
+            <div class="bar-track">
+              <div class="bar-fill" style="width: {{ triage_summary.routine_pct }}%; background-color: var(--teal-primary);"></div>
+            </div>
+          </div>
+
+          {% if triage_summary.other_count > 0 %}
+            <!-- Other / Unclassified -->
+            <div class="bar-item">
+              <div class="bar-header">
+                <span style="display: flex; align-items: center; gap: 0.4rem; color: var(--text-secondary);">
+                  <span style="width: 10px; height: 10px; background-color: #94A3B8; border-radius: 50%; display: inline-block;"></span>
+                  Other Observations
+                </span>
+                <strong>{{ triage_summary.other_count }} ({{ triage_summary.other_pct }}%)</strong>
+              </div>
+              <div class="bar-track">
+                <div class="bar-fill" style="width: {{ triage_summary.other_pct }}%; background-color: #94A3B8;"></div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Quick Action Guidance -->
+      <div style="background-color: var(--bg-subtle); padding: 1.25rem; border-radius: var(--radius-sm); font-size: 0.9rem; line-height: 1.6;">
+        <strong style="color: var(--text-primary); display: block; margin-bottom: 0.4rem;">
+          Triage Operational Protocols:
+        </strong>
+        <ul style="padding-left: 1.2rem; margin: 0; color: var(--text-secondary);">
+          <li style="margin-bottom: 0.35rem;">
+            <strong style="color: #DC2626;">Emergency First:</strong> Post-cyclone water mains ruptures and runoff contamination pose immediate health risks; inspect and dispatch maintenance priority tickets immediately.
+          </li>
+          <li>
+            <strong style="color: var(--teal-deep);">Drought Reserves:</strong> Everyday leaks must be grouped and repaired sequentially to minimize water volume depletion during hot spells.
+          </li>
+        </ul>
+      </div>
+    </div>
+  {% else %}
+    <div class="empty-state" style="padding: 1rem 0;">
+      <div class="empty-state-title">No reports logged for triage analysis</div>
+      <div class="empty-state-desc">Emergency and routine classifications will populate as incidents are submitted.</div>
+    </div>
+  {% endif %}
+</div>
+
 <!-- Breakdown Charts & Top Areas -->
 <div class="grid-2" style="margin-bottom: 2rem;">
   <!-- Categories Breakdown -->
   <div class="card">
-    <h2 class="card-title">Reports by Category</h2>
+    <h2 class="card-title">Reports by Detailed Category</h2>
     {% if total_reports > 0 %}
       <div class="bar-chart">
         {% for cat in categories %}
           {% set count = category_counts.get(cat, 0) %}
           {% set pct = ((count / total_reports) * 100)|round|int if total_reports > 0 else 0 %}
+          {% set is_emergency = cat in emergency_categories %}
           <div class="bar-item">
             <div class="bar-header">
-              <span>{{ cat }}</span>
+              <span style="font-size: 0.88rem; {{ 'color: #DC2626; font-weight: 600;' if is_emergency else '' }}">
+                {{ cat }}
+              </span>
               <strong>{{ count }} ({{ pct }}%)</strong>
             </div>
             <div class="bar-track">
-              <div class="bar-fill" style="width: {{ pct }}%;"></div>
+              <div class="bar-fill" style="width: {{ pct }}%; {{ 'background-color: #EF4444;' if is_emergency else '' }}"></div>
             </div>
           </div>
         {% endfor %}

@@ -114,9 +114,9 @@ def register_cli_commands(app):
             demo_reports = [
                 {
                     'reference_code': 'JR-DEMO0001A',
-                    'category': 'Leaking tap/pipe',
+                    'category': 'Everyday Leak / Wastage (Taps, Pipes, Tanks)',
                     'location_text': 'Engineering Block A, 1st floor water cooler',
-                    'description': '[DEMO TEST RECORD] Minor drip observed from cooler inlet valve.',
+                    'description': '[DEMO TEST RECORD] Minor drip observed from cooler inlet valve during dry spell.',
                     'observed_on': date.today() - timedelta(days=2),
                     'status': 'Under Review',
                     'public_update': 'Report inspected by maintenance supervisor.',
@@ -124,23 +124,23 @@ def register_cli_commands(app):
                 },
                 {
                     'reference_code': 'JR-DEMO0002B',
-                    'category': 'Overflowing tank',
-                    'location_text': 'Hostel 3 Overhead Storage Tank',
-                    'description': '[DEMO TEST RECORD] Tank overflow pipe running during morning pump cycle.',
+                    'category': 'Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)',
+                    'location_text': 'Hostel 3 Main Water Line Junction',
+                    'description': '[DEMO TEST RECORD] Broken distribution pipe sheared by fallen cyclone tree branch.',
                     'observed_on': date.today() - timedelta(days=5),
                     'status': 'Resolved',
-                    'public_update': 'Float valve repaired and water level sensor recalibrated on Oct 24.',
-                    'internal_note': 'Verified outcome on-site with hostel warden.'
+                    'public_update': 'Emergency coupling installed and pressurized line cleared on Oct 28.',
+                    'internal_note': 'Verified outcome on-site with campus disaster maintenance team.'
                 },
                 {
                     'reference_code': 'JR-DEMO0003C',
-                    'category': 'Damaged public water outlet',
-                    'location_text': 'Main Campus Sports Ground Tap',
-                    'description': '[DEMO TEST RECORD] Push-tap missing handle, continuous trickle.',
+                    'category': 'Contaminated Public Water Source (Post-storm runoff)',
+                    'location_text': 'Main Campus Sports Ground Standpost',
+                    'description': '[DEMO TEST RECORD] Turbid runoff backflow detected after Cyclone Arnab downpour.',
                     'observed_on': date.today() - timedelta(days=1),
                     'status': 'Submitted',
-                    'public_update': 'Report received and queued for review.',
-                    'internal_note': None
+                    'public_update': 'Report received and queued for immediate emergency triage.',
+                    'internal_note': 'Tagged for water quality sample testing.'
                 }
             ]
 
@@ -177,18 +177,22 @@ def register_cli_commands(app):
                 {
                     'area_label': 'Campus Academic Zone',
                     'observed_wastage': 'Yes',
-                    'categories': ['Leaking tap/pipe', 'Overflowing tank'],
+                    'categories': ['Everyday Leak / Wastage (Taps, Pipes, Tanks)', 'Post-Cyclone Infrastructure Damage (Cracked mains, broken standposts)'],
                     'awareness_level': 'Moderate',
                     'rainwater_harvesting': 'Yes',
-                    'suggestion': 'Place visual reminders near washbasins.'
+                    'rwh_pit': 'Yes',
+                    'cyclone_impact': 'Minor leaks',
+                    'suggestion': 'Convert cyclone rooftop runoff into percolation recharge pits.'
                 },
                 {
                     'area_label': 'Hostel Complex',
                     'observed_wastage': 'Yes',
-                    'categories': ['Overflowing tank'],
+                    'categories': ['Contaminated Public Water Source (Post-storm runoff)'],
                     'awareness_level': 'High',
                     'rainwater_harvesting': 'Not sure',
-                    'suggestion': 'Automated timer for overhead pump switches.'
+                    'rwh_pit': 'No',
+                    'cyclone_impact': 'Major pipe bursts',
+                    'suggestion': 'Automated shutoff valves when pipe pressure drops after storms.'
                 },
                 {
                     'area_label': 'Staff Quarters',
@@ -196,7 +200,9 @@ def register_cli_commands(app):
                     'categories': [],
                     'awareness_level': 'Moderate',
                     'rainwater_harvesting': 'No',
-                    'suggestion': 'Periodic community plumbing inspection.'
+                    'rwh_pit': "Don't Know",
+                    'cyclone_impact': 'No damage',
+                    'suggestion': 'Community water testing kits for post-storm runoff.'
                 }
             ]
 
@@ -206,6 +212,8 @@ def register_cli_commands(app):
                     observed_wastage=s['observed_wastage'],
                     awareness_level=s['awareness_level'],
                     rainwater_harvesting=s['rainwater_harvesting'],
+                    rwh_pit=s['rwh_pit'],
+                    cyclone_impact=s['cyclone_impact'],
                     suggestion=s['suggestion']
                 )
                 resp.set_categories(s['categories'])

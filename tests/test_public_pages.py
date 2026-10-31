@@ -3,8 +3,9 @@ def test_home_page_returns_200(client):
     response = client.get('/')
     assert response.status_code == 200
     assert b"JalaRaksha" in response.data
-    assert b"Report Water Wastage" in response.data
-    assert b"Track a Report" in response.data
+    assert b"Report Damage / Wastage" in response.data
+    assert b"Track Report Status" in response.data
+    assert b"Cyclone Arnab" in response.data
 
 
 def test_awareness_page_returns_200(client):
@@ -15,6 +16,7 @@ def test_awareness_page_returns_200(client):
     assert b"At Home" in response.data
     assert b"At School and College" in response.data
     assert b"In the Community" in response.data
+    assert b"Climate Resilience: Surviving Droughts & Floods" in response.data
 
 
 def test_404_error_page(client):
